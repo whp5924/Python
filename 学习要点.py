@@ -71,7 +71,7 @@
     pip install PyQt5 -i https://pypy.douban.com/simple
     pip install PyQt5-tools -i https://pypi.douban.com/simple
 
-222222225555555555555555555555
+222222225555555555555555555555666666666666
 
 """
 
