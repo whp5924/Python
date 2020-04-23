@@ -1,0 +1,8 @@
+setup.cfg
+setup.py
+itermate/__init__.py
+itermate/operator.py
+itermate.egg-info/PKG-INFO
+itermate.egg-info/SOURCES.txt
+itermate.egg-info/dependency_links.txt
+itermate.egg-info/top_level.txt

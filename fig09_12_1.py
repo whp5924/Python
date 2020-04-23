@@ -1,0 +1,4 @@
+#
+
+class SingleList(list):
+    print()

@@ -1,0 +1,369 @@
+# 类定义：从一组对象中提取相似的部分就是类;
+# 在python中，类是变量和函数的结合体;对象是变量和方法的结合体。
+# 类有两种作用，属性引用和实例化
+# 对象和实例只有一种作用：属性引用
+# 类的名称空间与对象和例的名称空间
+# 1. 创建一个类就会创建一个类的名称空间，用来存储类中所有名字==》属性==>1. 数据属性;2.函数属性；
+# 2. 创建一个对象/实例就会创建一个对象/实例的名称空间，用来存储对象/实例的名字,这些名字就是对象/实例的属性
+
+
+# Python类变量和实例变量（类属性和实例属性）
+# 无论是类属性还是类方法，都无法向普通变量或者函数那样，在类的外部直接使用它们。我们可以将类看做一个独立的空间，
+# 则类属性其实就是在类体中定义的变量，类方法是在类体中定义的函数。
+# 在类中，根据变量定义的位置不同，以及定义的方式不同，类属性又可细分为以下 3 种类型：
+#
+# 1.  类中、所有函数之外：此范围定义的变量，称为类属性或类变量；
+# 2.  类中，所以函数内部：以“self.变量名”的方式定义的变量，称为实例属性或实例变量；
+# 3.  类中，所有函数内部：以“变量名=变量值”的方式定义的变量，称为局部变量。
+#
+#  类方法也可细分为实例方法、静态方法和类方法
+# 类变量（类属性）
+# 类变量指的是在类中，但在各个类方法外定义的变量
+
+# class Point:
+#     name="姓名"
+#     def __init__(self,xValue,yValue):
+#         self.x=xValue
+#         self.y=yValue
+#
+#     def __str__(self):
+#         return "%d %d" % (self.x,self.y)
+
+# 上述类Point的name变量可以称为类变量
+# print(Point.name)
+# 类变量的特点:，所有类的实例化对象都同时共享类变量，也就是说，类变量在所有实例化对象中是作为公用资源存在.
+# 类方法的调用方式有2种:
+# 1. 可以使用类名直接调用;
+# 2. 也可以使用类的实例化对象调用。
+# print("用类名直接调用:",Point.name)  #类名调用
+# point=Point(23,34)                   #实例化类Point
+# print("用实例化对象调用:",point.name)#实例化调用
+# # 通过类名不仅可以调用类变量，也可以修改它的值。
+# Point.name="姓名.某某某"
+# print("用类名直接调用:",Point.name)
+# print("用实例化对象调用:",point.name)
+# 类变量为所有实例化对象共有，通过类名修改类变量的值，会影响所有的实例化对象。
+
+#注意: 通过类对象是无法修改类变量的。通过类对象对类变量赋值，其本质将不再是修改类变量的值，而是在给该对象定义新的实例变量
+# point.name="修改姓名xxxx"
+# print("11用类名直接调用:",Point.name)
+# print("22用实例化对象调用:",point.name)
+# 值得一提的是，除了可以通过类名访问类变量之外，还可以动态地为类和对象添加类变量
+
+
+# 实例变量（实例属性）
+# 实例变量指的是在任意类方法内部，以“self.变量名”的方式定义的变量，其特点是只作用于调用方法的对象
+# 实例变量只能通过对象名访问(√ point.x或point.y)，无法通过类名访问( × Point.x)
+
+# Point.age=23
+# print("11用类名直接调用:",Point.age)
+# print("22用实例化对象调用:",point.age)
+#
+# class Point:
+#     name="姓名"
+#     def __init__(self,xValue,yValue):
+#         self.x=xValue
+#         self.y=yValue
+#
+#     def __str__(self):
+#         return "%d %d" % (self.x,self.y)
+# point=Point(34,34)
+#
+# print("x的坐标点是:",point.x)
+# print("y的坐标点是:",point.y)
+
+# 如果引用类名访问会报错  print(Point.x) ( AttributeError: type object "Point" has no attribute 'x'
+# 通过类对象修改类变量的值，不是在给“类变量赋值”，而是定义新的实例变量
+# point.x=12
+# point.y=24
+# print("x的坐标点是:",point.x)
+# print("y的坐标点是:",point.y)
+# print("自动生成新的实例:",point)
+
+# 类中，实例变量和类变量可以同名，但这种情况下使用类对象将无法调用类变量，它会首选实例变量
+
+# 通过某个对象修改实例变量的值，不会影响类的其它实例化对象，更不会影响同名的类变量
+
+# 局部变量
+# 类方法中还可以定义局部变量。和前者不同，局部变量直接以“变量名=值”的方式进行定义
+# 局部变量只能用于所在函数中，函数执行完成后，局部变量也会被销毁
+
+# 每个派生类构造函数都只能调用该类最直接基类的构造函数
+
+# class tst:
+#     l=[]
+#     x=1
+#
+# a=tst()
+# b=tst()
+#
+# a.l.append('a')     # 可变属性，更改到类命名空间         不可变属性：数据、字符串，元组
+# b.l.append('b')     # 可变属性，更改到类命名空间           可变属性：列表list、字典dict、集合（set)
+# a.x='a'             # 不可变属性，更改到本地命名空间
+# b.x='b'             # 不可变属性，更改到本地命名空间
+#
+# print(a.l,a.x)       #['a', 'b'] a
+# print(b.l,b.x)      #['a', 'b'] b
+# print(tst.l,tst.x)  #['a', 'b'] 1
+#
+# print(a.__dict__)   #{'x': 'a'}  只保存自己特有的
+# print(b.__dict__)   #{'x': 'b'}  只保存自己特有的
+# print(tst.__dict__)
+
+# 不可变类型本地修改，可变类型更改原数据
+# 优先查自己的dict，没有再找类的dict
+# class tst2:
+#     cunt=0
+#     l=[]
+#     def __init__(self):
+#         tst2.cunt+=1
+#         self.l.append(self)
+# x=tst2()
+# y=tst2()
+# z=tst2()
+# print(tst2.__dict__)
+# print(x.cunt,tst2.cunt)   #3 3
+# print(x.l,'\n',tst2.l)
+
+# class Student:
+#     school='school name'     # 类变量
+#     def __init__(self,name,lesson):
+#         self.name=name       # 实例变量
+#         self.lesson=lesson   # 实例变量
+#
+#     def study(self):
+#         return '%s is learning %s' %(self.name,self.lesson)
+#
+# s1=Student('Jax','fight') #相当于 Student.__init__(s1,'Jax','fight') 实例化类
+# Student.road="宽"
+# Student.school="我的学校"
+# print(s1.__dict__)
+# print(Student.__dict__)
+# print(s1.study())                #对象的绑定方法---->>Jax is learning fight
+# print(Student.study(s1))          #另一种调用方法---->>Jax is learning fight
+# print(Student.study)      #类的函数属性---->><function Student.study at 0x000001FC9876B9D8>
+
+#
+#  https://www.cnblogs.com/zihe/p/7121571.html
+#  --------------------bin模块——入口模块----------------------------
+
+# -*-coding:UTF-8-*-
+
+import sys,os            #设置环境变量
+BASIC_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(BASIC_DIR)
+
+from core import main
+
+""" 因为调用main的时候就会执行main，所以不用再另行执行
+每个包的__init__.py 就是包本身名字的 py 文件，包里其他的 py 文件最好不要命名包名字了
+"""
+
+# -----------------------main模块，框架结构------------------------------
+
+# -*-coding:UTF-8-*-
+from core import login,register
+from core import add
+
+tag=True
+while tag:
+    ch=input('1）注册用户  2）用户登录\n=选择=>>:')
+    if ch=='1':
+        register.register()    #注册模块
+        tag=False
+    elif ch=='2':
+        login.login()       #登录
+        tag=False
+
+tag=True
+while tag:
+    ch=input('1）添加学生  2）添加老师  3）显示学生信息  4）显示老师信息\n=选择（q退出）=>>:')
+    if ch=='1':
+        add.student()        #添加学生对象
+    elif ch=='2':
+        add.teacher()        #添加老师对象
+    elif ch=='3':
+        add.student_info.all_info()         #查看所有学生的信息
+    elif ch=='4':
+        add.teacher_info.all_info()         #查看所有老师的信息
+    elif ch=='q':
+        tag=False
+
+# -------------------------register模块，注册登录用户---------------------
+
+
+# -*-coding:UTF-8-*-
+
+from db import path_s
+import pickle
+
+def register():
+    while True:
+        user=input('>>用户名：').strip()
+        pwd=input('>>密码：').strip()
+        phone=input('>>电话：').strip()
+        u_id=input('>>身份证：').strip()
+        if not user or not pwd or not phone or not phone.isdigit():
+            print('输入有误！用户名,密码,电话必填')
+            continue
+        with open(path_s.User_dic_path,'ab') as f :
+            user_add={user:pwd,'phone':phone,'ID':u_id}
+            res=pickle._dumps(user_add)
+            f.writelines([res])
+        break
+
+# ------------------------------login模块，用户登录----------------------------------
+
+
+# -*-coding:UTF-8-*-
+
+from db import path_s
+import pickle
+
+def login():
+    tag=True
+    while tag:
+        user=input('>>用户名：').strip()
+        pwd=input('>>密码：').strip()
+        l=[]
+        with open(path_s.User_dic_path,'rb') as f:
+            while True:
+                try:                               #用户注册是pickle多次序列化写入文件的，反序列化需要多次输出，这里用死循环，直到报错再退出
+                    l.append(pickle.load(f))
+                except EOFError:
+                    break
+        # print(l)
+        for i in l:
+            if user in i and i[user]==pwd:
+                print('login sucessful')
+                tag=False
+
+# ---------------------------models模块，定义 老师、学生、课程类------------------------------------
+
+
+# -*-coding:UTF-8-*-
+
+class People:
+    def __init__(self,name,age,sex):
+        self.name=name
+        self.age=age
+        self.sex=sex
+    def Talk(self):
+        print('%s is talking')
+class Oldboy_company(People):
+    def __init__(self,name,age,sex,p_id):
+        People.__init__(self,name,age,sex)
+        self.id=p_id
+        self.courses=[]
+
+class Teacher(Oldboy_company):
+    def __init__(self,name,age,sex,p_id,salary,level):
+        Oldboy_company.__init__(self,name,age,sex,p_id)
+        self.salary=salary
+        self.level=level
+        self.level=level
+    def teach(self):
+        print('%s is teaching' %self.name)
+    def info(self):
+        print('''
+        -------%s information------
+        name:%s
+        age:%s
+        sex:%s
+        ID:%s
+        salary:%s
+        level:%s
+        ''' %(self.name,self.name,self.age,self.sex,self.id,self.salary,self.level))
+class Student(Oldboy_company):
+    def __init__(self,name,age,sex,p_id,group):
+        Oldboy_company.__init__(self,name,age,sex,p_id)
+        self.group=group
+        self.discount=1
+    def study(self):
+        print('%s is studying' %self.name)
+    def info(self):
+        print('''
+        -------%s information------
+        name:%s
+        age:%s
+        sex:%s
+        ID:%s
+        group:%s
+        ''' %(self.name,self.name,self.age,self.sex,self.id,self.group))
+    def course_info(self):
+        for i in self.courses:
+            print('''
+        ----%s course information----
+        name:%s
+        price:%s
+        period:%s
+            ''' %(self.name,i.name,i.price*self.discount,i.period))
+
+class Courses_format:
+    def __init__(self,name,price,period):
+        self.name=name
+        self.price=price
+        self.period=period
+    def course_info(self):
+        print('''
+        ----%s information----
+        name:%s
+        price:%s
+        period:%s
+        ''' %(self.name,self.name,self.price,self.period))
+
+#  -----------------------add模块，添加 老师、学生-----------------------
+# -*-coding:UTF-8-*-
+
+from core.models import Teacher,Student,Courses_format    #导入的是具体的类，而不是模块
+from db import path_s
+import pickle
+
+def basic_input():
+    name = input('name: ').strip()
+    age = input('age: ').strip()
+    sex = input('sex: ').strip()
+    name_id = input('ID: ').strip()
+    return name,age,sex,name_id
+
+def student():
+    while True:
+        name,age,sex,name_id=basic_input()
+        group = input('group: ').strip()
+        if not name:
+            print('姓名必填')
+            continue
+        break
+    res=Student(name,age,sex,name_id,group)
+    with open(path_s.Student_path,'ab')as f:
+        pickle._dump(res,f)
+
+def teacher():
+    while True:
+        name,age,sex,name_id=basic_input()
+        salary = input('salary: ').strip()
+        level = input('level: ').strip()
+        if not name:
+            print('姓名必填')
+            continue
+        break
+    res=Teacher(name,age,sex,name_id,salary,level)
+    with open(path_s.Teacher_path,'ab')as f:
+        pickle._dump(res,f)
+
+class Tell_info:
+    def __init__(self,path):
+        self.path=path
+    def all_info(self):
+        with open(self.path,'rb')as f:
+            while True:
+                try:
+                    res=pickle._load(f)
+                    res.info()
+                except EOFError:
+                    break
+
+student_info=Tell_info(path_s.Student_path)
+teacher_info=Tell_info(path_s.Teacher_path)
+
+
