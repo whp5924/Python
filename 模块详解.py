@@ -31,7 +31,8 @@ str_requests="""
 headers={
     'user-agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
 }
-url="http://www.163.com"
+#url="https://www.biqugela.com/"
+url = 'http://httpbin.org/post'
 
 import urllib.request
 import requests
@@ -56,25 +57,24 @@ def re_quest_Request_post(url,headers):
     }
 
     data = text_parse_b(dict)
-    print(url)
+
     #request = urllib.request.Request(url,data = data,headers=headers,method='POST')  #得到一个请求对象
-    #request = urllib.request.Request(url,data)
-    request = urllib.request.Request(url,data=data,headers=headers)
-    #request.add_header('headers',headers)
-    #request.add_header('method','POST')
-    response1 = urllib.request.urlopen(request)
+    request = urllib.request.Request(url,data)
+    #request = urllib.request.Request(url,data=data,headers=headers)
+    request.add_header('user-agent','Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36')
 
-    html = response1.read()
+
+    response = urllib.request.urlopen(request)
+    print(response.url)
+    html = response.read().decode()
     # 如果网页源代码里有中文乱码,判断html是不是字节流，是字节流转码时加unicode-escape  html = html.decode('unicode-escape')
-    #          判断html不是是字符串，是字符串转码时加unicode-escape  html = html.encode('latin-1').decode('unicode-escape')
-
-    html = html.decode('unicode-escape')
-
-    #print(html)
+    #          是字符串转码时  html = html.encode('latin-1').decode('unicode-escape')
+    print(html)
 def text_parse_b(dict):
 
-    data = bytes(urllib.parse.urlencode(dict),encoding='UTF-8')
-
+    #data = bytes(urllib.parse.urlencode(dict),encoding='UTF-8')
+    data = urllib.parse.urlencode(dict)
+    data = bytes(data,encoding='utf-8')
     return data
 def get_cookie_urllib(url,headers):
     cookie = cookiejar.CookieJar()
@@ -170,6 +170,8 @@ def title_url(res1,headers):
                 print(href_1)
                 response_1 = func_opener(href_1,headers)
                 print(response_1)
+if __name__ == '__main__':
+    re_quest_Request_post(url,headers=headers)
 #
 # if __name__ == '__main__':     # 此处为下载笔趣网小说实例
 #     url = 'https://www.biqugela.com/'
